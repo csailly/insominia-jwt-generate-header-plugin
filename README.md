@@ -13,6 +13,8 @@
 
 1. Using a terminal, `cd` into your Insomnia plugins folder - [See Insomnia Docs](https://docs.insomnia.rest/insomnia/introduction-to-plugins)
 2. Run `git clone https://github.com/csailly/insominia-plugin-jwt-generate-header`
+3. `cd` into the `insominia-plugin-jwt-generate-header` folder
+4. Run `npn install`
 
 ## Usage
 
@@ -29,4 +31,14 @@
 }
 ```
 
+![A test image](./images/env_vars_1.png)
+
+![A test image](./images/env_vars_2.png)
+
 2. Add the payload in the header `jwt-generate-header-payload`
+
+![A test image](./images/request_headers.png)
+
+3. Result
+
+![A test image](./images/request.png)
