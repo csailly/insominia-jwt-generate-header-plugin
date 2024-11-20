@@ -9,6 +9,13 @@
 3. Enter `insomnia-plugin-jwt-generate-header`
 4. Click _Install_
 
+### From Insomnia Plugin Hub
+
+1. Navigate to https://insomnia.rest/plugins/insomnia-plugin-jwt-generate-header
+2. Click _Install Plugin_
+3. Click _Open_
+4. Once opened, click _Install_
+
 ### Manual Install
 
 1. Using a terminal, `cd` into your Insomnia plugins folder - [See Insomnia Docs](https://docs.insomnia.rest/insomnia/introduction-to-plugins)
