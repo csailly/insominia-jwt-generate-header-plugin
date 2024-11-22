@@ -1,4 +1,4 @@
-# Insomnia JWT Generate Header Plugin
+# Insomnia JWT Header Generator Plugin
 
 ## Installation
 
