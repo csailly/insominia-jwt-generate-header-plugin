@@ -25,12 +25,12 @@
 
 ## Usage
 
-1. Set the environment variables :
+### 1. Set the environment variables :
 
 ```json
 {
   "jwt-generate-header": {
-    "jwt-header-name": "x-my-jwt",
+    "jwt-header-name": "x-my-jwt-header-name",
     "jwt-algorithm": "HS256",
     "jwt-expiresIn": "2m",
     "jwt-secret": "secret-xxxx"
@@ -42,10 +42,14 @@
 
 ![A test image](./images/env_vars_2.png)
 
-2. Add the payload in the header `jwt-generate-header-payload`
+### 2. Add the payload in your header as plain json object
 
 ![A test image](./images/request_headers.png)
 
-3. Result
+:warning: **Deprecated way** : Add the payload in the header `jwt-generate-header-payload`
+
+![A test image](./images/request_headers_deprecated.png)
+
+### 3. And voilà
 
 ![A test image](./images/request.png)

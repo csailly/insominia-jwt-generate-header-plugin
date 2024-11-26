@@ -1,23 +1,26 @@
 const jwt = require('jsonwebtoken');
 
 const PLUGIN_NAME = 'jwt-generate-header';
+const PLUGIN_ENVIRONMENT_SETTINGS = 'jwt-generate-header';
+const JWT_PAYLOAD_HEADER_NAME = 'jwt-generate-header-payload'; //@deprecated
 
-function cleanHeaders(context) {
-  context.request.removeHeader('jwt-generate-header-payload');
+function cleanPluginHeader(context) {
+  context.request.removeHeader(JWT_PAYLOAD_HEADER_NAME);
+}
+
+function getPayload() {
+  return (
+    context.request.getHeader(jwtHeaderName) ??
+    context.request.getHeader(JWT_PAYLOAD_HEADER_NAME)
+  );
 }
 
 module.exports.requestHooks = [
   async context => {
     console.log(`${PLUGIN_NAME} Running`);
 
-    const jwtPayload = context.request.getHeader('jwt-generate-header-payload');
-    if (!jwtPayload) {
-      console.log(`${PLUGIN_NAME} No jwt-payload found`);
-      return;
-    }
-
     const jwtSettings = context.request.getEnvironmentVariable(
-      'jwt-generate-header',
+      PLUGIN_ENVIRONMENT_SETTINGS,
     );
 
     const jwtHeaderName = jwtSettings?.['jwt-header-name'];
@@ -26,21 +29,27 @@ module.exports.requestHooks = [
     const jwtExpiresIn = jwtSettings?.['jwt-expiresIn'];
 
     if (!jwtSettings || !jwtHeaderName || !jwtSecret) {
-      cleanHeaders(context);
-      console.log(`${PLUGIN_NAME} Missing required parameters`);
+      cleanPluginHeader(context);
+      console.log(`${PLUGIN_NAME} Missing required settings`);
+      return;
+    }
+
+    const jwtPayload = getPayload();
+    if (!jwtPayload) {
+      console.log(`${PLUGIN_NAME} No jwt-payload found`);
       return;
     }
 
     try {
-      let sig = jwt.sign(JSON.parse(jwtPayload), jwtSecret, {
+      let token = jwt.sign(JSON.parse(jwtPayload), jwtSecret, {
         algorithm: jwtAlgorithm,
         ...(jwtExpiresIn ? { expiresIn: jwtExpiresIn } : {}),
       });
-      context.request.addHeader(jwtHeaderName, `${sig}`);
+      context.request.setHeader(jwtHeaderName, `${token}`);
     } catch (error) {
       console.log(`${PLUGIN_NAME} Error `, error);
     } finally {
-      cleanHeaders(context);
+      cleanPluginHeader(context);
     }
   },
 ];
