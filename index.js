@@ -1,9 +1,11 @@
 const jwt = require('jsonwebtoken');
 
 const PLUGIN_NAME = 'jwt-generate-header';
+const PLUGIN_ENVIRONMENT_SETTINGS = 'jwt-generate-header';
+const JWT_PAYLOAD_HEADER_NAME = 'jwt-generate-header-payload'; //@deprecated
 
-function cleanHeaders(context) {
-  context.request.removeHeader('jwt-generate-header-payload');
+function cleanPluginHeader(context) {
+  context.request.removeHeader(JWT_PAYLOAD_HEADER_NAME);
 }
 
 function getPayload(context, jwtHeaderName) {
@@ -23,7 +25,7 @@ module.exports = {
       console.log(`${PLUGIN_NAME} Running`);
 
       const jwtSettings = context.request.getEnvironmentVariable(
-        'jwt-generate-header',
+        PLUGIN_ENVIRONMENT_SETTINGS,
       );
 
       const jwtHeaderName = jwtSettings?.['jwt-header-name'];
@@ -32,7 +34,7 @@ module.exports = {
       const jwtExpiresIn = jwtSettings?.['jwt-expiresIn'];
 
       if (!jwtSettings || !jwtHeaderName || !jwtSecret) {
-        cleanHeaders(context);
+        cleanPluginHeader(context);
         console.log(`${PLUGIN_NAME} Missing required parameters`);
         return;
       }
@@ -52,7 +54,7 @@ module.exports = {
       } catch (error) {
         console.log(`${PLUGIN_NAME} Error `, error);
       } finally {
-        cleanHeaders(context);
+        cleanPluginHeader(context);
       }
     },
   ],
