@@ -5,14 +5,14 @@
     "name": "Christophe SAILLY",
     "email": "nestof@gmail.com"
   },
-  "description": "Insomnia plugin to generate JWT header",
+  "description": "Sign your header with JWT",
   "license": "MIT",
   "repository": "https://github.com/csailly/insominia-plugin-jwt-generate-header",
   "main": "index.js",
   "insomnia": {
     "name": "jwt-generate-header",
     "displayName": "Jwt Header Generator",
-    "description": "Insomnia plugin to generate JWT header."
+    "description": "Sign your header with JWT"
   },
   "dependencies": {
     "jsonwebtoken": "^9.0.2"
